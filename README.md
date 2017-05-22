@@ -10,7 +10,7 @@
 2. Move into the new directory `cd mychag`.
 3. Install the NodeJS dependencies: `npm install` *can take a minute*...
 4. Run the server: `node server.js`.
-5. Start sending API requests, as per documentation. @ [http://localhost:770](http://localhost:770).
+5. Start sending API requests, as per [documentation](https://github.com/rabbishuki/mychag/blob/master/README.md#documentation).
 
 ### Releases
 * 1.0 - 5/22/2017 (26 Iyar 5777)
