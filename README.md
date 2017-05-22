@@ -15,8 +15,6 @@
 ### Releases
 * 1.0 - 5/22/2017 (26 Iyar 5777)
 
-### Contributors
-
 ## Documentation
 ### User routes
 
