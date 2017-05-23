@@ -9,8 +9,9 @@
 1. Clone the repository: `git clone https://github.com/rabbishuki/mychag.git`.
 2. Move into the new directory `cd mychag`.
 3. Install the NodeJS dependencies: `npm install` *can take a minute*...
-4. Run the server: `node server.js`.
-5. Start sending API requests, as per [documentation](https://github.com/rabbishuki/mychag/blob/master/README.md#documentation).
+4. Configure the `process.env` object.
+5. Run the server: `node server.js`.
+6. Start sending API requests, as per [documentation](https://github.com/rabbishuki/mychag/blob/master/README.md#documentation).
 
 ### Releases
 * 1.0 - 5/22/2017 (26 Iyar 5777)
@@ -18,9 +19,26 @@
 ## Documentation
 ### User routes
 
-#### `GET: /api/1.0/ads/closestAd(location)`
-##### Currently: returns the location sent.
-###### Proposed: returns the 5 closest ads to location sent.
+#### `GET: /api/1.0/ads/closestAd?location=31.776719,35.234508`
+returns the 5 closest ads to location sent.
+```js
+message: "5 results found",
+  location: {
+    lat: "31.776719",
+    lng: "35.234508"
+  },
+  ads: [{
+      id: number,
+      formatted_address: string,
+      lat: float,
+      lng: float,
+      date: string,
+      json: json,
+      radius: int,
+      distance: float
+    },...]
+  }
+```
 
 #### `POST: /api/1.0/ads/newAd(ad)`
 ##### Currently: validates and returns the ad sent.
