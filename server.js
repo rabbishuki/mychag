@@ -2,7 +2,8 @@ var express = require('express'),
     app = express(),
     router = express.Router(),
     bodyParser = require('body-parser'),
-    cookieParser = require('cookie-parser');
+    cookieParser = require('cookie-parser'),
+    sql = require('./Server/mysql.js');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -22,11 +23,30 @@ router.use(function (req, res, next) {
 });
 
 router.route('/closestAd').get(function (req, res) {
-    res.json({
-        message: '0 results found',
-        location: req.query.location,
-        ads: []
-    });
+    var location = req.query.location.split(',');
+
+    if (location.length != 2) {
+        res.send({
+            message: 'כתובת מקור לא תקין'
+        });
+    } else {
+        sql.q(sql.l(location[0], location[1], 50.0, 5), function (data) {
+            if (data.error) {
+                res.send({
+                    message: 'שגיאה בהצגת נתונים'
+                })
+            } else {
+                res.json({
+                    message: `${data.results.length} results found`,
+                    location: {
+                        lat: location[0],
+                        lng: location[1]
+                    },
+                    ads: data.results || []
+                });
+            }
+        });
+    }
 });
 
 router.route('/newAd').post(function (req, res) {
@@ -55,3 +75,4 @@ var port = process.env.PORT || 770;
 app.listen(port, function () {
     console.log('myChag(tm) is running on http://localhost:' + port);
 });
+
