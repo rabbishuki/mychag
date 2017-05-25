@@ -19,7 +19,7 @@
 ## Documentation
 ### User routes
 
-#### `GET: /api/1.0/ads/closestAd?location=31.776719,35.234508`
+#### `GET: /api/1.0/ads/closestAd?location=31.776719,35.234508&formatted_address=הכותל+המערבי&range=5`
 returns the 5 closest ads to location sent.
 ```js
 message: "5 results found",
@@ -29,13 +29,25 @@ message: "5 results found",
   },
   ads: [{
       id: number,
-      formatted_address: string,
-      lat: float,
-      lng: float,
       date: string,
-      json: json,
-      radius: int,
-      distance: float
+      title: string,
+      imgFile: string,
+      comment: string,
+      location: {
+        lat: float,
+        lng: float,
+        formatted_address: string,
+        distance: float
+      },
+      userInfo: {
+        name: string,
+        phone: string,
+        email: string
+      }
+      out: {
+        Link: string,
+        LinkText: string
+      }
     },...]
   }
 ```
