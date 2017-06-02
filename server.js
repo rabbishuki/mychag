@@ -13,6 +13,12 @@ app.use(cookieParser());
 
 // middleware to use for all requests
 router.use(function (req, res, next) {
+
+    // CORS
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
     // do logging
     var requestData = {
         Method: req.method,
