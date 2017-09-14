@@ -16,7 +16,7 @@ app.use(express.static('public'));
 app.use('/api/1.0/ads', router);
 
 router.get('/', function (req, res) {
-    res.sendFile(__dirname +'/public/index.html');
+    res.sendFile(__dirname + '/public/index.html');
 });
 
 
@@ -57,39 +57,7 @@ router.route('/closestAd').get(function (req, res) {
                     message: 'שגיאה בהצגת נתונים'
                 })
             } else {
-                var ads = data.results.map(function (ad) {
-                    var json = {};
-                    try {
-                        json = JSON.parse(ad.json);
-                    } catch (e) {
-                        console.log(`Error parsing ad with id #${ad.id}`);
-                    };
-
-                    return {
-                        id: ad.id,
-                        date: ad.date,
-                        title: json.title || '',
-                        imgFile: json.imgFile || '',
-                        comment: json.comment || '',
-                        type: ad.type,
-                        location: {
-                            lat: ad.lat,
-                            lng: ad.lng,
-                            formatted_address: ad.formatted_address,
-                            distance: ad.distance
-                        },
-                        userInfo: {
-                            name: json.name || '',
-                            phone: json.phone || '',
-                            email: json.email || ''
-                        },
-                        out: {
-                            Link: json.Link || '',
-                            LinkText: json.LinkText || ''
-                        }
-                    }
-                });
-
+                var ads = sql.f(data.results);
                 res.json(ads);
             }
         });
@@ -144,6 +112,68 @@ router.route('/newAd').post(function (req, res) {
             });
         }
     });
+});
+
+router.route('/unaprovedAds').post(function (req, res) {
+    if (req.body.username !== process.env.auth_user &&
+        req.body.password !== process.env.auth_pass) {
+        return res.json({
+            message: 'UnAuthorized Access'
+        });
+    } else {
+        sql.q('SELECT * FROM tb_events WHERE approved = 0 AND active = 1', function (data) {
+            if (data.error) {
+                res.send({
+                    message: 'שגיאה בהצגת נתונים'
+                })
+            } else {
+                var ads = sql.f(data.results);
+                res.json(ads);
+            }
+        });
+    }
+});
+
+router.route('/approve/:id').post(function (req, res) {
+    if (req.body.username !== process.env.auth_user &&
+        req.body.password !== process.env.auth_pass) {
+        return res.json({
+            message: 'UnAuthorized Access'
+        });
+    } else {
+        sql.q(sql.u(req.params.id, "approved", true), function (data) {
+            if (data.error) {
+                res.send({
+                    message: 'שגיאה באישור האירוע'
+                })
+            } else {
+                res.send({
+                    message: 'האירוע אושר בהצלחה'
+                })
+            }
+        });
+    }
+});
+
+router.route('/delete/:id').post(function (req, res) {
+    if (req.body.username !== process.env.auth_user &&
+        req.body.password !== process.env.auth_pass) {
+        return res.json({
+            message: 'UnAuthorized Access'
+        });
+    } else {
+        sql.q(sql.u(req.params.id, "active", false), function (data) {
+            if (data.error) {
+                res.send({
+                    message: 'שגיאה באישור האירוע'
+                })
+            } else {
+                res.send({
+                    message: 'האירוע אושר בהצלחה'
+                })
+            }
+        });
+    }
 });
 
 var port = process.env.PORT || 770;
