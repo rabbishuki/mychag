@@ -5,29 +5,37 @@
 
 
     <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
-        <!-- Date -->
-        <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
-            <label>תאריך</label>
-            <input type="date" name="name" class="form-control" ng-model="exp.date" required>
-            <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>
-        </div>
 
-        <!-- Categories -->
-        <div class="form-group" ng-class="{ 'has-error' : userForm.category.$invalid && !userForm.category.$pristine }">
-            <label>קטגוריה</label>
-            <select name="category" class="form-control" ng-model="exp.category" required>
-                <option ng-repeat="cat in categories" value="{{::cat.id}}">{{::cat.title}}</option>
-            </select>
-            <p ng-show="userForm.category.$invalid && !userForm.category.$pristine" class="help-block">You name is required.</p>
-        </div>
+        <div class="row">
 
-        <!-- location -->
-        <div class="form-group" ng-class="{ 'has-error' : userForm.location.$invalid && !userForm.location.$pristine }">
-            <label>מיקום האירוע</label>
-            <input type="text" ng-model="exp.location.formatted_address" ng-blur="console.log(1);getLocation()" name="location" class="form-control"  required>
-            <p ng-show="userForm.location.$invalid && !userForm.location.$pristine" class="help-block">You name is required.</p>
-        </div>
-
+            
+            <!-- location -->
+            <div class="col-md-4 form-group" ng-class="{ 'has-error' : userForm.location.$invalid && !userForm.location.$pristine }">
+                <label>מיקום האירוע</label>
+                <input type="text" ng-model="exp.location.formatted_address" ng-blur="console.log(1);getLocation()" name="location" class="form-control"
+                    required>
+                    <p ng-show="userForm.location.$invalid && !userForm.location.$pristine" class="help-block">You name is required.</p>
+                </div>
+                
+                
+                
+                <!-- Date -->
+                <div class="col-md-4 form-group" ng-class="{ 'has-error' : userForm.date.$invalid && !userForm.date.$pristine }">
+                    <label>תאריך</label>
+                    <input type="date" name="date" class="form-control" ng-model="exp.date" required>
+                    <p ng-show="userForm.date.$invalid && !userForm.date.$pristine" class="help-block">You date is required.</p>
+                </div>
+                
+                <!-- Categories -->
+                <div class="col-md-4 form-group" ng-class="{ 'has-error' : userForm.category.$invalid && !userForm.category.$pristine }">
+                    <label>קטגוריה</label>
+                    <select name="category" class="form-control" ng-model="exp.category" required>
+                        <option ng-repeat="cat in categories" value="{{::cat.id}}">{{::cat.title}}</option>
+                    </select>
+                    <p ng-show="userForm.category.$invalid && !userForm.category.$pristine" class="help-block">You name is required.</p>
+                </div>
+                
+            </div>
 
         <!-- title -->
         <div class="form-group" ng-class="{ 'has-error' : userForm.title.$invalid && !userForm.title.$pristine }">
@@ -55,26 +63,25 @@
         <hr>
 
         <!-- What -->
-        <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
-            <label>שם איש הקשר</label>
-            <input type="text" name="name" class="form-control" ng-model="exp.name" required>
-            <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>
-        </div>
+        <div class="row">
 
-        <div class="form-group">
+            <div class="col-md-4 form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+                <label>שם איש הקשר</label>
+                <input type="text" name="name" class="form-control" ng-model="exp.userInfo.name" required>
+                <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>
+            </div>
+
             <!-- phone -->
-            <div class="form-group" ng-class="{ 'has-error' : userForm.phone.$invalid && !userForm.phone.$pristine }">
+            <div class="col-md-4 form-group" ng-class="{ 'has-error' : userForm.phone.$invalid && !userForm.phone.$pristine }">
                 <label>מספר הטלפון של איש הקשר</label>
-                <input type="tel" name="phone" class="form-control" ng-model="exp.phone" required>
+                <input type="tel" name="phone" class="form-control" ng-model="exp.userInfo.phone" required>
                 <p ng-show="userForm.phone.$invalid && !userForm.phone.$pristine" class="help-block">You name is required.</p>
             </div>
-        </div>
 
-        <div class="form-group">
             <!-- email -->
-            <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+            <div class="col-md-4 form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
                 <label>כתובת המייל של איש הקשר</label>
-                <input type="email" name="email" class="form-control" ng-model="exp.email" required>
+                <input type="email" name="email" class="form-control" ng-model="exp.userInfo.email" required>
                 <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">You name is required.</p>
             </div>
         </div>

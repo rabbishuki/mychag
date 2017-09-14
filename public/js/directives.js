@@ -15,18 +15,15 @@ gmach.directive("newAd", function ($uibModal, eventTypes, gFactory) {
                             location: {
                                 formatted_address: 'כתובת'
                             },
+                            userInfo: {},
                             date: new Date()
                         };
 
                         $scope.ok = function () {
-                            $http.post(`${location.origin}/api/1.0/expenses`, $scope.exp);
-                            alert('ok');
-                        };
-                        $scope.cancel = function () {
-                            alert('cancel');
+                            gFactory.postNewAd(angular.copy($scope.exp)).then(x => console.dir(x), x => console.dir(x));
                         };
                         $scope.getLocation = function () {
-                            gFactory.getLocationFromGoolge($scope.searchBar).then(function (data) {
+                            gFactory.getLocationFromGoolge($scope.exp.location.formatted_address).then(function (data) {
                                 var results = data.data.results;
                                 const lat = results[0].geometry.location.lat;
                                 const lng = results[0].geometry.location.lng;
@@ -91,7 +88,7 @@ gmach.directive('myMap', function () {
                 map: map,
                 title: title,
                 animation: google.maps.Animation.DROP,
-                icon: title == "מיקומך" ? 'http://maps.google.com/mapfiles/ms/micons/red-dot.png' : 'http://maps.google.com/mapfiles/ms/micons/blue-pushpin.png'
+                icon: title == "מיקומך" ? 'https://maps.google.com/mapfiles/ms/micons/red-dot.png' : 'https://maps.google.com/mapfiles/ms/micons/blue-pushpin.png'
             };
 
             marker = new google.maps.Marker(markerOptions);
@@ -119,28 +116,30 @@ gmach.directive('myMap', function () {
         scope.$on('searchResultHere', function (event, data) {
             //create empty LatLngBounds object
             var bounds = new google.maps.LatLngBounds();
-
-
             mapOptions.center = new google.maps.LatLng(data.userLocation.lat, data.userLocation.lng);
 
             // show the map and place some markers
             initMap();
 
-            function clearOverlays() {
-                for (var i = 0; i < markers.length; i++) {
-                    markersArray[i].setMap(null);
-                }
-                markersArray.length = 0;
+            if (markers.length) {
+                markers.forEach( marker => marker.setMap(null));
             }
-
-
+            //set the user marker
             setMarker(map, new google.maps.LatLng(data.userLocation.lat, data.userLocation.lng), "מיקומך", "אתה נמצא פה");
+            //trak all markers- to make sure they all displayed on the map
+            var bounds = new google.maps.LatLngBounds();
 
             data.result.forEach(function (element) {
                 element.imgFile = element.imgFile || "https://www.oysterdiving.com/components/com_easyblog/themes/wireframe/images/placeholder-image.png";
                 setMarker(map, new google.maps.LatLng(element.location.lat, element.location.lng), element.title, element.more);
+                bounds.extend({
+                    lat: element.location.lat,
+                    lng: element.location.lng
+                });
             }, this);
 
+            //tell your map to sets the viewport to contain all the places.
+            map.fitBounds(bounds);
         });
 
     };
