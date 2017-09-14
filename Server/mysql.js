@@ -105,6 +105,7 @@ function formatAdsForUser(ads) {
             title: json.title || '',
             imgFile: json.imgFile || '',
             comment: json.comment || '',
+            moreInfo: json.moreInfo || '',
             type: ad.type,
             location: {
                 lat: ad.lat,

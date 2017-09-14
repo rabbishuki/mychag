@@ -83,7 +83,8 @@ router.route('/newAd').post(function (req, res) {
             "name": req.body.name,
             "phone": req.body.phone,
             "email": req.body.email,
-            "comment": req.body.comment
+            "comment": req.body.comment,
+            "moreInfo": req.body.moreInfo
         })
     };
 
@@ -108,6 +109,7 @@ router.route('/newAd').post(function (req, res) {
                     "phone": req.body.phone,
                     "email": req.body.email,
                     "comment": req.body.comment,
+                    "moreInfo": req.body.moreInfo
                 }]
             });
         }
