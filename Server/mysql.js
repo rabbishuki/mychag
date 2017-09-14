@@ -54,13 +54,16 @@ function insertArray(table, array, duplicate) {
     return request.join(' ');
 }
 
-function location(lat, lng, radius, limit) {
+function location(lat, lng, radius, limit, type) {
+    var typeText = '';
+    if (type) typeText = 'AND z.type = ' + type;
     return `SELECT *
             FROM (
                SELECT z.id,
                       z.formatted_address,
                       z.lat, z.lng,
-                      z.date, z.json,
+                      z.date, z.json, z.type,
+                      z.active, z.approved,
                       p.radius,
                       p.distance_unit
                           * DEGREES(ACOS(COS(RADIANS(p.latpoint))
@@ -79,15 +82,59 @@ function location(lat, lng, radius, limit) {
                  AND z.lng
                   BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))
                       AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))
+                 ${typeText}
             ) AS d
-            WHERE distance <= radius
+            WHERE approved = 1 AND active = 1
+                 AND distance <= radius
             ORDER BY distance
             LIMIT ${limit}`;
+}
+
+function formatAdsForUser(ads) {
+    return ads.map(function (ad) {
+        var json = {};
+        try {
+            json = JSON.parse(ad.json);
+        } catch (e) {
+            console.log(`Error parsing ad with id #${ad.id}`);
+        };
+
+        return {
+            id: ad.id,
+            date: ad.date,
+            title: json.title || '',
+            imgFile: json.imgFile || '',
+            comment: json.comment || '',
+            moreInfo: json.moreInfo || '',
+            type: ad.type,
+            location: {
+                lat: ad.lat,
+                lng: ad.lng,
+                formatted_address: ad.formatted_address,
+                distance: ad.distance
+            },
+            userInfo: {
+                name: json.name || '',
+                phone: json.phone || '',
+                email: json.email || ''
+            },
+            out: {
+                Link: json.Link || '',
+                LinkText: json.LinkText || ''
+            }
+        }
+    });
+};
+
+function update(id, col, value) {
+    return `UPDATE tb_events SET ${col} = ${value} WHERE id = ${id}`;
 }
 
 module.exports = {
     v: validate,
     q: query,
     i: insertArray,
-    l: location
+    l: location,
+    f: formatAdsForUser,
+    u: update,
 };

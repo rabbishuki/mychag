@@ -11,6 +11,15 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use(express.static('public'));
+
+app.use('/api/1.0/ads', router);
+
+router.get('/', function (req, res) {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+
 // middleware to use for all requests
 router.use(function (req, res, next) {
 
@@ -30,69 +39,26 @@ router.use(function (req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
-app.use(express.static('public'));
-
-app.get('/', function (req, res) {
-    res.sendFile(__dirname +'/public/index.html');
-});
-
 router.route('/closestAd').get(function (req, res) {
     var location = req.query.location.split(',');
     var formatted_address = req.query.formatted_address || "";
-    var range = req.query.range || 5;
+    var radius = req.query.radius || 50.0;
+    var limit = req.query.limit || 5;
+    var type = req.query.type;
 
     if (location.length != 2) {
         res.send({
             message: 'כתובת מקור לא תקין'
         });
     } else {
-        sql.q(sql.l(location[0], location[1], 50.0, range), function (data) {
+        sql.q(sql.l(location[0], location[1], radius, limit, type), function (data) {
             if (data.error) {
                 res.send({
                     message: 'שגיאה בהצגת נתונים'
                 })
             } else {
-                var ads = data.results.map(function (ad) {
-                    var json = {};
-                    try {
-                        json = JSON.parse(ad.json);
-                    } catch (e) {
-                        console.log(`Error parsing ad with id #${ad.id}`);
-                    };
-
-                    return {
-                        id: ad.id,
-                        date: ad.date,
-                        title: json.title || '',
-                        imgFile: json.imgFile || '',
-                        comment: json.comment || '',
-                        location: {
-                            lat: ad.lat,
-                            lng: ad.lng,
-                            formatted_address: ad.formatted_address,
-                            distance: ad.distance
-                        },
-                        userInfo: {
-                            name: json.name || '',
-                            phone: json.phone || '',
-                            email: json.email || ''
-                        },
-                        out: {
-                            Link: json.Link || '',
-                            LinkText: json.LinkText || ''
-                        }
-                    }
-                });
-
-                res.json({
-                    message: `${data.results.length} results found`,
-                    location: {
-                        lat: location[0],
-                        lng: location[1],
-                        formatted_address: formatted_address
-                    },
-                    ads: ads
-                });
+                var ads = sql.f(data.results);
+                res.json(ads);
             }
         });
     }
@@ -104,6 +70,7 @@ router.route('/newAd').post(function (req, res) {
     });
 
     var object = {
+        "type": req.body.type,
         "formatted_address": req.body.formatted_address,
         "lat": req.body.location.lat,
         "lng": req.body.location.lng,
@@ -116,7 +83,8 @@ router.route('/newAd').post(function (req, res) {
             "name": req.body.name,
             "phone": req.body.phone,
             "email": req.body.email,
-            "comment": req.body.comment
+            "comment": req.body.comment,
+            "moreInfo": req.body.moreInfo
         })
     };
 
@@ -129,23 +97,86 @@ router.route('/newAd').post(function (req, res) {
             res.json({
                 message: 'new ad created!',
                 ad: [{
+                    "type": req.body.type,
                     "location": req.body.location,
                     "title": req.body.title,
                     "date": req.body.date,
                     "imgFile": req.body.imgFile,
                     "outLink": req.body.outLink,
+
                     "outLinkText": req.body.outLinkText,
                     "name": req.body.name,
                     "phone": req.body.phone,
                     "email": req.body.email,
                     "comment": req.body.comment,
+                    "moreInfo": req.body.moreInfo
                 }]
             });
         }
     });
 });
 
-app.use('/api/1.0/ads', router);
+router.route('/unaprovedAds').post(function (req, res) {
+    if (req.body.username !== process.env.auth_user &&
+        req.body.password !== process.env.auth_pass) {
+        return res.json({
+            message: 'UnAuthorized Access'
+        });
+    } else {
+        sql.q('SELECT * FROM tb_events WHERE approved = 0 AND active = 1', function (data) {
+            if (data.error) {
+                res.send({
+                    message: 'שגיאה בהצגת נתונים'
+                })
+            } else {
+                var ads = sql.f(data.results);
+                res.json(ads);
+            }
+        });
+    }
+});
+
+router.route('/approve/:id').post(function (req, res) {
+    if (req.body.username !== process.env.auth_user &&
+        req.body.password !== process.env.auth_pass) {
+        return res.json({
+            message: 'UnAuthorized Access'
+        });
+    } else {
+        sql.q(sql.u(req.params.id, "approved", true), function (data) {
+            if (data.error) {
+                res.send({
+                    message: 'שגיאה באישור האירוע'
+                })
+            } else {
+                res.send({
+                    message: 'האירוע אושר בהצלחה'
+                })
+            }
+        });
+    }
+});
+
+router.route('/delete/:id').post(function (req, res) {
+    if (req.body.username !== process.env.auth_user &&
+        req.body.password !== process.env.auth_pass) {
+        return res.json({
+            message: 'UnAuthorized Access'
+        });
+    } else {
+        sql.q(sql.u(req.params.id, "active", false), function (data) {
+            if (data.error) {
+                res.send({
+                    message: 'שגיאה באישור האירוע'
+                })
+            } else {
+                res.send({
+                    message: 'האירוע אושר בהצלחה'
+                })
+            }
+        });
+    }
+});
 
 var port = process.env.PORT || 770;
 
