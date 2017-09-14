@@ -11,6 +11,15 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use(express.static('public'));
+
+app.use('/api/1.0/ads', router);
+
+router.get('/', function (req, res) {
+    res.sendFile(__dirname +'/public/index.html');
+});
+
+
 // middleware to use for all requests
 router.use(function (req, res, next) {
 
@@ -30,23 +39,18 @@ router.use(function (req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
-app.use(express.static('public'));
-
-app.get('/', function (req, res) {
-    res.sendFile(__dirname +'/public/index.html');
-});
-
 router.route('/closestAd').get(function (req, res) {
     var location = req.query.location.split(',');
     var formatted_address = req.query.formatted_address || "";
-    var range = req.query.range || 5;
+    var radius = req.query.radius || 50.0;
+    var limit = req.query.limit || 5;
 
     if (location.length != 2) {
         res.send({
             message: 'כתובת מקור לא תקין'
         });
     } else {
-        sql.q(sql.l(location[0], location[1], 50.0, range), function (data) {
+        sql.q(sql.l(location[0], location[1], radius, limit), function (data) {
             if (data.error) {
                 res.send({
                     message: 'שגיאה בהצגת נתונים'
@@ -84,15 +88,7 @@ router.route('/closestAd').get(function (req, res) {
                     }
                 });
 
-                res.json({
-                    message: `${data.results.length} results found`,
-                    location: {
-                        lat: location[0],
-                        lng: location[1],
-                        formatted_address: formatted_address
-                    },
-                    ads: ads
-                });
+                res.json(ads);
             }
         });
     }
@@ -134,6 +130,7 @@ router.route('/newAd').post(function (req, res) {
                     "date": req.body.date,
                     "imgFile": req.body.imgFile,
                     "outLink": req.body.outLink,
+
                     "outLinkText": req.body.outLinkText,
                     "name": req.body.name,
                     "phone": req.body.phone,
@@ -144,8 +141,6 @@ router.route('/newAd').post(function (req, res) {
         }
     });
 });
-
-app.use('/api/1.0/ads', router);
 
 var port = process.env.PORT || 770;
 
