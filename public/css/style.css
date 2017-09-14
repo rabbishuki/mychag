@@ -166,3 +166,9 @@ h2.title {
 #search-submit .glyphicon {
     top: 7px;
 }
+
+
+/*                      */
+.modal-body img{
+    max-width: 100%;
+}

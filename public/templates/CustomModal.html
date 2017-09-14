@@ -1,27 +1,35 @@
 <div class="modal-header">
-    <h2 class="modal-title">{{vm.content.element.name}}</h2>
+    <h2 class="modal-title">{{::vm.content.element.title}}</h2>
 </div>
 <div class="modal-body row">
-    <div class="col-sm-6">
-        <h3>מידע נוסף על הגמ"ח</h3>
-        <h4>{{vm.content.element.more}}</h4>
+    <div class="col-sm-9">
+        <img ng-src="{{::vm.content.element.imgFile}}"/>
     </div>
 
-    <div class="col-sm-6">
-
+    <div class="col-sm-3">
         <h3>כתובת</h3>
-        <h4>{{vm.content.element.city}} - {{vm.content.element.adress}}</h4>
+        <h4>{{::vm.content.element.location.formatted_address}}<h4>
+
+        <h3>תאריך</h3>
+        <h4>{{::vm.content.element.date}}</h4>
 
         <h3>איש קשר</h3>
-        <h4>{{vm.content.element.contactN}} - {{vm.content.element.contactP}}</h4>
+        <h4>{{::vm.content.element.userInfo.name}} - {{::vm.content.element.userInfo.phone}}</h4>
 
         <h3>מייל</h3>
-        <h4>{{vm.content.element.contactE}}</h4>
+        <h4>{{::vm.content.element.userInf.mail}}</h4>
+
+        <p>
+            {{::vm.content.element.more}}
+        </p>
     </div>
 
 
 </div>
 <div class="modal-footer">
+    <div ng-if="vm.content.element.contact.out.Link">
+        <a href="{{::vm.content.element.contact.out.Link}}">{{::vm.content.element.contact.out.LinkText}}</a>
+    </div>
     <button class="btn btn-primary" type="button" ng-click="vm.confirm()">
       אישור
     </button>

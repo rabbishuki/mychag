@@ -1,12 +1,12 @@
 gmach.factory("gFactory", ['$http', '$q', function ($http, $q) {
-    let serverPath = "https://mychag.herokuapp.com/api/1.0";
+    let apiPath = "https://mychag.herokuapp.com/api/1.0/";
 
     function getLocationFromGoolge(search) {
-        return $http.get("http://maps.google.com/maps/api/geocode/json?address=" + search);
+        return $http.get("http://maps.google.com/maps/api/geocode/json?address=" + search );
     }
 
     function getClosestLocation(lat, lng) {
-        return $http.get(`${serverPath}/ads/closestAd?location=${lat},${lng}`);
+        return $http.get(`${apiPath}ads/closestAd?location=${lat},${lng}&range=5`);
     }
 
     function getLocationByID(id) {
@@ -29,31 +29,29 @@ gmach.factory("gFactory", ['$http', '$q', function ($http, $q) {
         getFormatedAdressFromLocactio: getFormatedAdressFromLocactio,
         getLocationByID: getLocationByID,
         getAllLocations: getAllLocations
-    }
+    };
 
 
+}]).factory('$myModal', myModalFactory);
 
-    // function showLocation(position) {
-    //     var latitude = position.coords.latitude;
-    //     var longitude = position.coords.longitude;
-    //     alert("Latitude : " + latitude + " Longitude: " + longitude);
-    // }
-    // function errorHandler(err) {
-    //     if (err.code == 1) {
-    //         alert("Error: Access is denied!");
-    //     } else if (err.code == 2) {
-    //         alert("Error: Position is unavailable!");
-    //     }
-    // }
-    // function getUserLocation() {
-    //     var defer = $q.defer();
-    //     if (navigator.geolocation) {
-    //         navigator.geolocation.getCurrentPosition(function (position) {
+function myModalFactory($uibModal) {
+	var open = function (size, element) {
+		return $uibModal.open({
+			controller: 'MyModalController',
+			controllerAs: 'vm',
+			templateUrl: './templates/CustomModal.html',
+			size: size,
+			resolve: {
+				items: function () {
+					return {
+						element: element
+					};
+				}
+			}
+		});
+	};
 
-    //         }, errorHandler);
-    //     } else {
-    //         alert("Sorry, browser does not support geolocation!");
-    //     }
-    // }
-
-}]);
+	return {
+		open: open
+	};
+}
