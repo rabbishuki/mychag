@@ -55,7 +55,8 @@ function insertArray(table, array, duplicate) {
 }
 
 function location(lat, lng, radius, limit, type) {
-    if (type) var typeText = 'AND z.type = ' + type;
+    var typeText = '';
+    if (type) typeText = 'AND z.type = ' + type;
     return `SELECT *
             FROM (
                SELECT z.id,
