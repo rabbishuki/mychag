@@ -54,13 +54,14 @@ function insertArray(table, array, duplicate) {
     return request.join(' ');
 }
 
-function location(lat, lng, radius, limit) {
+function location(lat, lng, radius, limit, type) {
+    if (type) typeText = 'AND z.type = ' + type;
     return `SELECT *
             FROM (
                SELECT z.id,
                       z.formatted_address,
                       z.lat, z.lng,
-                      z.date, z.json,
+                      z.date, z.json, z.type,
                       p.radius,
                       p.distance_unit
                           * DEGREES(ACOS(COS(RADIANS(p.latpoint))
@@ -79,6 +80,7 @@ function location(lat, lng, radius, limit) {
                  AND z.lng
                   BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))
                       AND p.longpoint + (p.radius / (p.distance_unit * COS(RADIANS(p.latpoint))))
+                 ${typeText}
             ) AS d
             WHERE distance <= radius
             ORDER BY distance

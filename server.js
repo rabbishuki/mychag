@@ -44,13 +44,14 @@ router.route('/closestAd').get(function (req, res) {
     var formatted_address = req.query.formatted_address || "";
     var radius = req.query.radius || 50.0;
     var limit = req.query.limit || 5;
+    var type = req.query.type;
 
     if (location.length != 2) {
         res.send({
             message: 'כתובת מקור לא תקין'
         });
     } else {
-        sql.q(sql.l(location[0], location[1], radius, limit), function (data) {
+        sql.q(sql.l(location[0], location[1], radius, limit, type), function (data) {
             if (data.error) {
                 res.send({
                     message: 'שגיאה בהצגת נתונים'
@@ -70,6 +71,7 @@ router.route('/closestAd').get(function (req, res) {
                         title: json.title || '',
                         imgFile: json.imgFile || '',
                         comment: json.comment || '',
+                        type: ad.type,
                         location: {
                             lat: ad.lat,
                             lng: ad.lng,
@@ -100,6 +102,7 @@ router.route('/newAd').post(function (req, res) {
     });
 
     var object = {
+        "type": req.body.type,
         "formatted_address": req.body.formatted_address,
         "lat": req.body.location.lat,
         "lng": req.body.location.lng,
@@ -125,6 +128,7 @@ router.route('/newAd').post(function (req, res) {
             res.json({
                 message: 'new ad created!',
                 ad: [{
+                    "type": req.body.type,
                     "location": req.body.location,
                     "title": req.body.title,
                     "date": req.body.date,
