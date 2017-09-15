@@ -1,4 +1,4 @@
-var router = require('express')().Router(),
+var router = require('express').Router(),
     sql = require('./../db/mysql.js');
 
 router.get('/', function (req, res) {
@@ -121,8 +121,9 @@ router.route('/allUnaproved').post(function (req, res) {
 });
 
 router.route('/approve/:id').post(function (req, res) {
-    if (req.body.username !== process.env.auth_user &&
-        req.body.password !== process.env.auth_pass) {
+    if ((req.body.username !== process.env.auth_user &&
+        req.body.password !== process.env.auth_pass) ||
+        req.body.uniqId) {
         return res.json({
             message: 'UnAuthorized Access'
         });

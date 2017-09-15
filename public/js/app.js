@@ -145,3 +145,24 @@ gmach.controller('MyModalController', function ($uibModalInstance, items) {
 	vm.confirm = $uibModalInstance.close;
 	vm.cancel = $uibModalInstance.dismiss;
 });
+
+/*			Admin			*/
+gmach.controller("admin", ['$scope',  'adminFactory', 'eventTypes', function ($scope, adminFactory, eventTypes) {
+	$scope.unaproved = false;
+
+	$scope.getAllUnaproved = function(){
+		adminFactory.getAllUnaproved($scope.person).then(function(results){
+			$scope.unaproved = results.data;
+		});
+	};
+
+	$scope.approved = function(id){
+		adminFactory.approveAd( id ,$scope.person).then(function(results){
+			debugger;
+		});
+	};
+
+	$scope.unApproveAd = function(id){
+		console.log('TODO- unapprove!');
+	}
+}]);

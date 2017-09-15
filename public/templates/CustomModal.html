@@ -1,4 +1,4 @@
-<div class="modal-header">
+<div class="modal-header event-popup">
     <h2 class="modal-title">{{::vm.content.element.title}}</h2>
 </div>
 <div class="modal-body row">
@@ -12,18 +12,16 @@
 
         <h3>תאריך</h3>
         <h4>{{::vm.content.element.date}}</h4>
+        <p>
+            {{::vm.content.element.moreInfo}}
+        </p>
 
         <h3>איש קשר</h3>
-        <h4>{{::vm.content.element.userInfo.name}} - {{::vm.content.element.userInfo.phone}}</h4>
+        <h4>{{::vm.content.element.userInfo.name}} - <a href="tel:{{::vm.content.element.userInfo.phone}}">{{::vm.content.element.userInfo.phone}}</a></h4>
 
         <h3>מייל</h3>
-        <h4>{{::vm.content.element.userInf.mail}}</h4>
-
-        <p>
-            {{::vm.content.element.more}}
-        </p>
+        <h4>{{::vm.content.element.userInfo.email}}</h4>
     </div>
-
 
 </div>
 <div class="modal-footer">
