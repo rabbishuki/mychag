@@ -150,6 +150,8 @@ gmach.controller('MyModalController', function ($uibModalInstance, items) {
 gmach.controller("admin", ['$scope',  'adminFactory', 'eventTypes', function ($scope, adminFactory, eventTypes) {
 	$scope.unaproved = false;
 
+	$scope.person ={};
+
 	$scope.getAllUnaproved = function(){
 		adminFactory.getAllUnaproved($scope.person).then(function(results){
 			$scope.unaproved = results.data;
