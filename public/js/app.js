@@ -73,7 +73,7 @@ gmach.controller("gSearch", ['$scope', 'gFactory', 'eventTypes', function ($scop
 		$scope.loading = true;
 		gFactory.getLocationFromGoolge($scope.searchBar).then(function (data) {
 				if (!data.data.results.length) {
-					alert("המערכת לא מצאה את הכתובת אותה הזנת, אנא נסה בשנית")
+					alert("המערכת לא מצאה את הכתובת אותה הזנת, אנא נסה בשנית");
 					$scope.loading = false;
 				}
 				else{

@@ -15,7 +15,7 @@ gmach.factory("gFactory", ['$http', '$q', function ($http, $q) {
     
 
     function postNewAd(obj) {
-        return $http.post( `${apiPath}newAd`, obj);
+        return $http.post( `${apiPath}ads`, obj);
     }
 
     return {

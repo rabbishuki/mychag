@@ -64,27 +64,24 @@ router.route('/closestAd').get(function (req, res) {
     }
 });
 
-router.route('/newAd').post(function (req, res) {
+router.route('/').post(function (req, res) {
     if (req.body.lastName) return res.json({
         message: 'GIS is better than LEV'
     });
 
     var object = {
-        "type": req.body.type,
-        "formatted_address": req.body.formatted_address,
-        "lat": req.body.location.lat,
-        "lng": req.body.location.lng,
+        "type": Number.parseInt( req.body.type),
+        "formatted_address": req.body.location.formatted_address,
+        "lat": Number.parseFloat( req.body.location.lat),
+        "lng":  Number.parseFloat( req.body.location.lng),
         "date": req.body.date,
         "json": JSON.stringify({
             "title": req.body.title,
+            "moreInfo": req.body.moreInfo,
             "imgFile": req.body.imgFile,
-            "outLink": req.body.outLink,
-            "outLinkText": req.body.outLinkText,
-            "name": req.body.name,
-            "phone": req.body.phone,
-            "email": req.body.email,
             "comment": req.body.comment,
-            "moreInfo": req.body.moreInfo
+            "userInfo": req.body.userInfo,
+            "out": req.body.out,
         })
     };
 
@@ -100,16 +97,17 @@ router.route('/newAd').post(function (req, res) {
                     "type": req.body.type,
                     "location": req.body.location,
                     "title": req.body.title,
+                    "moreInfo": req.body.moreInfo,
                     "date": req.body.date,
                     "imgFile": req.body.imgFile,
-                    "outLink": req.body.outLink,
 
-                    "outLinkText": req.body.outLinkText,
-                    "name": req.body.name,
-                    "phone": req.body.phone,
-                    "email": req.body.email,
-                    "comment": req.body.comment,
-                    "moreInfo": req.body.moreInfo
+                    "outLink": req.body.out.outLink,
+                    "outLinkText": req.body.out.outLinkText,
+                    
+                    "name": req.body.userInfo.name,
+                    "phone": req.body.userInfo.phone,
+                    "email": req.body.userInfo.email,
+                    "comment": req.body.comment
                 }]
             });
         }
@@ -146,12 +144,14 @@ router.route('/approve/:id').post(function (req, res) {
         sql.q(sql.u(req.params.id, "approved", true), function (data) {
             if (data.error) {
                 res.send({
-                    message: 'שגיאה באישור האירוע'
-                })
+                    message: 'שגיאה באישור האירוע',
+                    id : req.params.id
+                });
             } else {
                 res.send({
-                    message: 'האירוע אושר בהצלחה'
-                })
+                    message: 'האירוע אושר בהצלחה',
+                    id : req.params.id
+                });
             }
         });
     }
@@ -167,12 +167,14 @@ router.route('/delete/:id').post(function (req, res) {
         sql.q(sql.u(req.params.id, "active", false), function (data) {
             if (data.error) {
                 res.send({
-                    message: 'שגיאה באישור האירוע'
-                })
+                    message: 'שגיאה באישור האירוע',
+                    id : req.params.id
+                });
             } else {
                 res.send({
-                    message: 'האירוע אושר בהצלחה'
-                })
+                    message: 'האירוע אושר בהצלחה',
+                    id : req.params.id
+                });
             }
         });
     }
