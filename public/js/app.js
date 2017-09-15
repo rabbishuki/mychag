@@ -47,7 +47,7 @@ gmach.controller("gSearch", ['$scope', 'gFactory', 'eventTypes', function ($scop
 	$scope.searchResult = [];
 	$scope.haveResult = false;
 
-	$scope.category = "קטגוריה";
+	$scope.category = "אני רוצה למצוא";
 	$scope.loading = false;
 
 	$scope.selectCat = function (item) {
