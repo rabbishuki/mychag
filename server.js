@@ -2,7 +2,7 @@ const express = require('express'),
       app = express(),
       bodyParser = require('body-parser'),
       cookieParser = require('cookie-parser');
-const ads = require('./server/routes/ads.js');
+const ads = require('./Server/routes/ads.js');
 
 app.use(bodyParser.urlencoded({
     extended: false
