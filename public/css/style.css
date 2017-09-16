@@ -103,6 +103,7 @@ body{
     padding-right: 8px;
     overflow-y: auto;
     height: 250px;
+    width:100%;  
     letter-spacing: 0px;
 }
 
@@ -149,6 +150,10 @@ h2.title {
     color: #2587b8;
 }
 
+.event-popup img{
+    width: 100%;
+}
+
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
@@ -168,7 +173,17 @@ h2.title {
 }
 
 
-/*                      */
-.modal-body img{
+/*        Admin              */
+#adminPage #wellcome h1 {
+    font-size: 80px;
+    margin: 0px auto 30px;
+} 
+
+#adminPage .modal-body img{
     max-width: 100%;
 }
+
+#adminPage .table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: rgb(61, 156, 204);
+}
+

@@ -1,5 +1,5 @@
+let apiPath = "https://mychag.herokuapp.com/api/1.0/";
 gmach.factory("gFactory", ['$http', '$q', function ($http, $q) {
-    let apiPath = "https://mychag.herokuapp.com/api/1.0/";
 
     function getLocationFromGoolge(search) {
         return $http.get("https://maps.google.com/maps/api/geocode/json?address=" + search );
@@ -15,7 +15,7 @@ gmach.factory("gFactory", ['$http', '$q', function ($http, $q) {
     
 
     function postNewAd(obj) {
-        return $http.post( `${apiPath}newAd`, obj);
+        return $http.post( `${apiPath}ads`, obj);
     }
 
     return {
@@ -24,11 +24,7 @@ gmach.factory("gFactory", ['$http', '$q', function ($http, $q) {
         getFormatedAdressFromLocactio: getFormatedAdressFromLocactio,
         postNewAd:postNewAd
     };
-
-
-}]).factory('$myModal', myModalFactory);
-
-function myModalFactory($uibModal) {
+}]).factory('$myModal', function($uibModal) {
 	var open = function (size, element) {
 		return $uibModal.open({
 			controller: 'MyModalController',
@@ -48,4 +44,17 @@ function myModalFactory($uibModal) {
 	return {
 		open: open
 	};
-}
+}).factory('adminFactory', ['$http',function($http){
+    function getAllUnaproved(login){
+        return $http.post( `${apiPath}ads/unaprovedAds`, login);
+    }
+    
+    function approveAd(id, login){
+        return $http.post( `${apiPath}ads/approve/${id}`, login);
+    }
+
+    return {
+        getAllUnaproved : getAllUnaproved,
+        approveAd : approveAd
+    }
+}]);

@@ -13,7 +13,7 @@ gmach.directive("newAd", function ($uibModal, eventTypes, gFactory) {
                         $scope.categories = eventTypes;
                         $scope.exp = {
                             location: {
-                                formatted_address: 'כתובת'
+                                formatted_address: ''
                             },
                             userInfo: {},
                             date: new Date()

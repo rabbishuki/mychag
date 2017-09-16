@@ -1,5 +1,6 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">{{::title}}</h3>
+    <h3 class="modal-title" id="modal-title">הוספת אירוע למאגר האירועים</h3>
+    <h4 class="nodal-title">כדי שכל יהודי יוכל למצוא את האירוע שלך- מלא את כל השדות, ושלח את הטופס</h4>
 </div>
 <div class="modal-body" id="modal-body">
 
@@ -26,13 +27,13 @@
                     <p ng-show="userForm.date.$invalid && !userForm.date.$pristine" class="help-block">You date is required.</p>
                 </div>
                 
-                <!-- Categories -->
-                <div class="col-md-4 form-group" ng-class="{ 'has-error' : userForm.category.$invalid && !userForm.category.$pristine }">
-                    <label>קטגוריה</label>
-                    <select name="category" class="form-control" ng-model="exp.category" required>
+                <!-- Type -->
+                <div class="col-md-4 form-group" ng-class="{ 'has-error' : userForm.type.$invalid && !userForm.type.$pristine }">
+                    <label>סוג האירוע</label>
+                    <select name="type" class="form-control" ng-model="exp.type" required>
                         <option ng-repeat="cat in categories" value="{{::cat.id}}">{{::cat.title}}</option>
                     </select>
-                    <p ng-show="userForm.category.$invalid && !userForm.category.$pristine" class="help-block">You name is required.</p>
+                    <p ng-show="userForm.type.$invalid && !userForm.type.$pristine" class="help-block">You name is required.</p>
                 </div>
                 
             </div>
@@ -99,5 +100,5 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok(userForm.$valid)">Submit</button>
+    <button class="btn btn-primary" ng-click="ok(userForm.$valid)">הוסף אירוע</button>
 </div>

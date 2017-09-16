@@ -47,7 +47,7 @@ gmach.controller("gSearch", ['$scope', 'gFactory', 'eventTypes', function ($scop
 	$scope.searchResult = [];
 	$scope.haveResult = false;
 
-	$scope.category = "קטגוריה";
+	$scope.category = "אני רוצה למצוא";
 	$scope.loading = false;
 
 	$scope.selectCat = function (item) {
@@ -73,7 +73,7 @@ gmach.controller("gSearch", ['$scope', 'gFactory', 'eventTypes', function ($scop
 		$scope.loading = true;
 		gFactory.getLocationFromGoolge($scope.searchBar).then(function (data) {
 				if (!data.data.results.length) {
-					alert("המערכת לא מצאה את הכתובת אותה הזנת, אנא נסה בשנית")
+					alert("המערכת לא מצאה את הכתובת אותה הזנת, אנא נסה בשנית");
 					$scope.loading = false;
 				}
 				else{
@@ -145,3 +145,26 @@ gmach.controller('MyModalController', function ($uibModalInstance, items) {
 	vm.confirm = $uibModalInstance.close;
 	vm.cancel = $uibModalInstance.dismiss;
 });
+
+/*			Admin			*/
+gmach.controller("admin", ['$scope',  'adminFactory', 'eventTypes', function ($scope, adminFactory, eventTypes) {
+	$scope.unaproved = false;
+
+	$scope.person ={};
+
+	$scope.getAllUnaproved = function(){
+		adminFactory.getAllUnaproved($scope.person).then(function(results){
+			$scope.unaproved = results.data;
+		});
+	};
+
+	$scope.approved = function(id){
+		adminFactory.approveAd( id ,$scope.person).then(function(results){
+			debugger;
+		});
+	};
+
+	$scope.unApproveAd = function(id){
+		console.log('TODO- unapprove!');
+	}
+}]);
