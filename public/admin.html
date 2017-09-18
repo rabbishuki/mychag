@@ -50,7 +50,8 @@
                     </div>
                 </div>
 
-                <div class="container-fluid" ng-show="unaproved">
+                <div class="container-fluid ads-panel" ng-show="unaproved">
+                    <button class="btn btn-success pull-left" ng-disabled="disabled" ng-click="getAllUnaproved()"><i class="glyphicon glyphicon-refresh"></i></button>
                     <div class="result-panel row">
                         <div class="result-panel-right col-md-12">
                             <table class="table table-striped table-sm">
@@ -77,8 +78,8 @@
                                         <td>{{::item.userInfo.name}}</td>
                                         <td>{{::item.userInfo.phone}}</td>
                                         <td>{{::item.userInfo.email}}</td>
-                                        <td><a href="#" ng-click="approved(item.id)"><span class="glyphicon glyphicon-ok"></span></a></td>
-                                        <td><a href="#" ng-click="unApproved(item.id)"><span class="glyphicon glyphicon-remove"></span></a></td>
+                                        <td><a href="#" ng-click="approved(item.id)"><span class="btn btn-success glyphicon glyphicon-ok"></span></a></td>
+                                        <td><a href="#" ng-click="delete(item.id)"><span class="btn btn-danger glyphicon glyphicon-remove"></span></a></td>
                                     </tr>
                                 </tbody>
 

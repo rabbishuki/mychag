@@ -1,4 +1,4 @@
-let apiPath = "https://mychag.herokuapp.com/api/1.0/";
+let apiPath = "/api/1.0/";
 gmach.factory("gFactory", ['$http', '$q', function ($http, $q) {
 
     function getLocationFromGoolge(search) {
@@ -53,8 +53,13 @@ gmach.factory("gFactory", ['$http', '$q', function ($http, $q) {
         return $http.post( `${apiPath}ads/approve/${id}`, login);
     }
 
+    function deleteAd(id, login){
+        return $http.post( `${apiPath}ads/delete/${id}`, login);
+    }
+
     return {
         getAllUnaproved : getAllUnaproved,
-        approveAd : approveAd
+        approveAd: approveAd,
+        deleteAd: deleteAd
     }
 }]);
