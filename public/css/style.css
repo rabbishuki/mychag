@@ -1,42 +1,40 @@
-*{
+* {
     font-family: 'Alef', sans-serif;
 }
 
-body{
+body {
     overflow: hidden;
 }
 
-#wellcome{
+#wellcome {
     background-color: #2587b8;
     text-align: center;
-    color: white;   
+    color: white;
     font-weight: bold;
     letter-spacing: 2px;
-    
     width: 100%;
     height: 100%;
     position: absolute;
+    overflow-x: hidden;
 }
 
-#wellcome.wellcome-results{
+#wellcome.wellcome-results {
     position: initial;
- 
 }
-#wellcome h1{
+
+#wellcome h1 {
     font-size: 130px;
     margin: 70px auto 0;
-
-       
-     transition: all 0.5s ease;
-       -webkit-transition:  0.5s linear;
+    transition: all 0.5s ease;
+    -webkit-transition: 0.5s linear;
     /*to only change opacity*/
     /*-webkit-transition: opacity 1s linear*/
-   -moz-transition:  0.5s linear;
-   -o-transition:  0.5s linear;
-   transition:  0.5s linear;
+    -moz-transition: 0.5s linear;
+    -o-transition: 0.5s linear;
+    transition: 0.5s linear;
 }
 
-#wellcome.wellcome-results h1{
+#wellcome.wellcome-results h1 {
     font-size: 50px;
     margin: 30px 0 10px;
 }
@@ -49,8 +47,7 @@ body{
     margin: 40px auto;
 }
 
-
-.wellcome-results h2{
+.wellcome-results h2 {
     font-size: 20px;
     margin: 0;
 }
@@ -60,38 +57,38 @@ body{
     height: 450px;
 }
 
-.wellcome-results #wellcome-span{
+.wellcome-results #wellcome-span {
     margin: 20px auto;
 }
 
-#search-div{
+#search-div {
     width: 700px;
     margin: 0 auto;
     height: 50px;
     margin-bottom: 20px;
 }
 
-#search-input{
+#search-input {
     width: 52%;
     border-radius: 0 4px 4px 0;
     height: 100%;
     border: 0;
     float: right;
-    
     font-size: 22px;
     padding-right: 18px;
 }
 
-#search-dropdown{
+#search-dropdown {
     height: 100%;
     width: 30%;
     float: right;
 }
 
-.category-item{
+.category-item {
     color: #2587b8;
 }
-.category-item:hover{
+
+.category-item:hover {
     color: #153140;
 }
 
@@ -103,7 +100,7 @@ body{
     padding-right: 8px;
     overflow-y: auto;
     height: 250px;
-    width:100%;  
+    width: 100%;
     letter-spacing: 0px;
 }
 
@@ -113,11 +110,11 @@ body{
     border-radius: 0;
 }
 
-#search-submit{
+#search-submit {
     background-color: #6bc7f6;
     border-radius: 4px 0 0 4px;
     height: 100%;
-    float: right;    
+    float: right;
     width: 18%;
     font-size: 24px;
 }
@@ -132,7 +129,7 @@ body{
     border-bottom: 1px solid black;
 }
 
-.full100{
+.full100 {
     width: 100%;
     height: 100%;
 }
@@ -145,45 +142,101 @@ h2.title {
     margin: 10px 0 0;
 }
 
-.read-more{
+.read-more {
     font-size: 21px;
     color: #2587b8;
 }
 
-.event-popup img{
+.event-popup img {
     width: 100%;
 }
 
 .glyphicon-refresh-animate {
-    -animation: spin .7s infinite linear;
-    -webkit-animation: spin2 .7s infinite linear;
+    animation: spin .7s infinite linear;
+    -webkit-animation: spin .7s infinite linear;
 }
 
-@-webkit-keyframes spin2 {
-    from { -webkit-transform: rotate(0deg);}
-    to { -webkit-transform: rotate(360deg);}
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
 }
 
 @keyframes spin {
-    from { transform: scale(1) rotate(0deg);}
-    to { transform: scale(1) rotate(360deg);}
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+    to {
+        transform: scale(1) rotate(360deg);
+    }
 }
+
 #search-submit .glyphicon {
     top: 7px;
 }
 
 
 /*        Admin              */
+
 #adminPage #wellcome h1 {
     font-size: 80px;
     margin: 0px auto 30px;
-} 
+}
 
-#adminPage .modal-body img{
+#adminPage .modal-body img {
     max-width: 100%;
 }
 
 #adminPage .table-striped>tbody>tr:nth-of-type(odd) {
-    background-color: rgb(61, 156, 204);
+    background-color: #d9edf7;
 }
 
+#adminPage .table-striped>tbody>tr:nth-of-type(even) {
+    background-color: #fff;
+}
+
+#adminPage .ads-panel {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 15px;
+    color: #000;
+}
+
+@media(max-width: 720px) {
+    /* welcome screen */
+    #wellcome h1 {
+        font-size: 40px;
+        margin: 30px auto 0;
+    }
+    #wellcome h2 {
+        font-size: 15px;
+        margin: 5px auto 0;
+    }
+    #search-input {
+        width: 90vw;
+        border-radius: 4px;
+    }
+    #search-dropdown,
+    #search-submit {
+        float: none;
+    }
+    #search-dropdown button,
+    #search-submit {
+        margin: 5px 0;
+        border-radius: 4px;
+    }
+    #search-submit {
+        position: relative;
+        left: 81px;
+    }
+    new-ad {
+        top: 40px;
+        position: relative;
+    }
+
+    /*results screen*/
+    
+}

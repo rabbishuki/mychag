@@ -19,8 +19,11 @@ gmach.directive("newAd", function ($uibModal, eventTypes, gFactory) {
                             date: new Date()
                         };
 
-                        $scope.ok = function () {
-                            gFactory.postNewAd(angular.copy($scope.exp)).then(x => console.dir(x), x => console.dir(x));
+                        $scope.ok = function (valid) {
+                            if (valid) {
+                                gFactory.postNewAd(angular.copy($scope.exp)).then(x => console.dir(x), x => console.dir(x));
+                            };
+                            modalInstance.close();
                         };
                         $scope.getLocation = function () {
                             gFactory.getLocationFromGoolge($scope.exp.location.formatted_address).then(function (data) {

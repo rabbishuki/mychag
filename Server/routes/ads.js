@@ -87,8 +87,8 @@ router.route('/').post(function (req, res) {
                     "date": req.body.date,
                     "imgFile": req.body.imgFile,
 
-                    "outLink": req.body.out.outLink,
-                    "outLinkText": req.body.out.outLinkText,
+                    "outLink": req.body.out ? req.body.out.outLink : undefined,
+                    "outLinkText": req.body.out ? req.body.out.outLinkText : undefined,
                     
                     "name": req.body.userInfo.name,
                     "phone": req.body.userInfo.phone,
@@ -100,7 +100,7 @@ router.route('/').post(function (req, res) {
     });
 });
 
-router.route('/allUnaproved').post(function (req, res) {
+router.route('/unaprovedAds').post(function (req, res) {
     if (req.body.username !== process.env.auth_user &&
         req.body.password !== process.env.auth_pass) {
         return res.json({

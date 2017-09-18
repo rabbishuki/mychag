@@ -152,19 +152,23 @@ gmach.controller("admin", ['$scope',  'adminFactory', 'eventTypes', function ($s
 
 	$scope.person ={};
 
-	$scope.getAllUnaproved = function(){
-		adminFactory.getAllUnaproved($scope.person).then(function(results){
+    $scope.getAllUnaproved = function () {
+        $scope.disabled = true;
+        adminFactory.getAllUnaproved($scope.person).then(function (results) {
+            $scope.disabled = false;
 			$scope.unaproved = results.data;
 		});
 	};
 
 	$scope.approved = function(id){
 		adminFactory.approveAd( id ,$scope.person).then(function(results){
-			debugger;
+            $scope.getAllUnaproved();
+		});
+    };
+    
+    $scope.delete = function(id){
+		adminFactory.deleteAd( id ,$scope.person).then(function(results){
+			$scope.getAllUnaproved();
 		});
 	};
-
-	$scope.unApproveAd = function(id){
-		console.log('TODO- unapprove!');
-	}
 }]);
