@@ -2,10 +2,6 @@
     font-family: 'Alef', sans-serif;
 }
 
-body {
-    overflow: hidden;
-}
-
 #wellcome {
     background-color: #2587b8;
     text-align: center;
@@ -99,7 +95,7 @@ body {
     cursor: pointer;
     padding-right: 8px;
     overflow-y: auto;
-    height: 250px;
+    max-height: 250px;
     width: 100%;
     letter-spacing: 0px;
 }
@@ -236,7 +232,74 @@ h2.title {
         top: 40px;
         position: relative;
     }
-
     /*results screen*/
-    
+}
+
+@media only screen and (max-width: 480px) {
+    #wellcome.wellcome-results {
+        position: initial;
+        height: 220px;
+    }
+    #wellcome.wellcome-results h1 {
+        font-size: 35px;
+        margin: 10px 0 10px;
+    }
+    #wellcome.wellcome-results #search-div {
+        height: 30px;
+        margin-bottom: 0;
+    }
+    #wellcome.wellcome-results new-ad {
+        display: none;
+    }
+    #wellcome.wellcome-results input#search-input {
+        height: 30px;
+        font-size: 21px;
+        padding-right: 8px;
+    }
+    #wellcome.wellcome-results button#single-button {
+        height: 32px;
+        font-size: 20px;
+        padding: 0px;
+        width: 83%;
+    }
+    .wellcome-results #search-submit {
+        height: 32px;
+        width: 108px;
+        font-size: 21px;
+        padding: 0px;
+    }
+
+    .result-panel-right.col-md-8 {
+        height: 380px;
+        padding: 0px 12px;
+    }
+
+    h2.title {
+        font-size: 25px;
+    }
+
+    h3.address {
+        font-size: 22px;
+        margin: 0;
+    }
+
+    .read-more {
+        font-size: 19px;
+        padding-right: 10px;
+    }
+
+    #gmaps {
+        width: 100%;
+        height: 300px;
+    }
+
+    .col-sm-9 img {
+        width: 100%;
+        height: 150px;
+    }
+
+    .col-sm-3 h3 {
+        font-size: 22px;
+        margin: 0;
+    }
 }

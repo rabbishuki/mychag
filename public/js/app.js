@@ -13,24 +13,25 @@ gmach.config(function ($sceDelegateProvider) {
 	]);
 });
 
-gmach.constant('eventTypes', [{
-		id: 101,
-		icon: "home",
-		title: "הנחת תפילין"
-	}, {
-		id: 102,
-		icon: "home",
-		title: "בית כנסת"
-	}, {
-		id: 201,
-		icon: "home",
-		title: "מניין ראש השנה"
-	},
-	{
-		id: 202,
-		icon: "home",
-		title: "מניין יום כיפור"
-	},
+gmach.constant('eventTypes', [
+	// {
+	// 	id: 101,
+	// 	icon: "home",
+	// 	title: "הנחת תפילין"
+	// }, {
+	// 	id: 102,
+	// 	icon: "home",
+	// 	title: "בית כנסת"
+	// }, {
+	// 	id: 201,
+	// 	icon: "home",
+	// 	title: "מניין ראש השנה"
+	// },
+	// {
+	// 	id: 202,
+	// 	icon: "home",
+	// 	title: "מניין יום כיפור"
+	// },
 	{
 		id: 203,
 		icon: "home",
@@ -40,6 +41,11 @@ gmach.constant('eventTypes', [{
 		id: 204,
 		icon: "home",
 		title: "נטילת לולב"
+	},
+	{
+		id: 205,
+		icon: "home",
+		title: "שמחת בית השואבה"
 	}
 ]);
 
@@ -116,18 +122,9 @@ gmach.controller("gSearch", ['$scope', 'gFactory', 'eventTypes', function ($scop
 }]);
 
 gmach.controller('DropdownCtrl', function ($scope, $log) {
-	$scope.items = [
-		'The first choice!',
-		'And another choice for you.',
-		'but wait! A third!'
-	];
 
 	$scope.status = {
 		isopen: false
-	};
-
-	$scope.toggled = function (open) {
-		$log.log('Dropdown is now: ', open);
 	};
 
 	$scope.toggleDropdown = function ($event) {
